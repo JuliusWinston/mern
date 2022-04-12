@@ -1,0 +1,24 @@
+{
+  "name": "mern",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuliusWinston/MERN-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JuliusWinston/MERN-practice/issues"
+  },
+  "homepage": "https://github.com/JuliusWinston/MERN-practice#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
