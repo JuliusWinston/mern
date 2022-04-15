@@ -1,27 +1,23 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+const path = require('path');
 
-const authorize = require('./authorize');
-const logger = require('./logger');
+//Route middleware
+const root = require('./routes/root');
+const auth = require('./routes/auth');
+const people = require('./routes/people');
 
-// app.use([logger, authorize]);
-// use vs route
-// options: custom, express, third-party
+const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-	res.send('Home');
-});
-app.get('/about', (req, res) => {
-	res.send('About');
-});
-app.get('/api/products', (req, res) => {
-	res.send('Products');
-});
-app.get('/api/items', [logger, authorize], (req, res) => {
-	console.log(req.user);
-	res.send('Items');
-});
+app.use(express.urlencoded({extended: false}));
+app.use(express.static('./public'));
+app.use(express.json());
 
-app.listen(5000, () => {
-	console.log(`Server running of port: 5000`);
+app.get('/', root);
+app.use('/login', auth);
+app.use('/api/people', people);
+
+app.listen(PORT, () => {
+	console.log(`Server running of port: ${PORT}`);
 });

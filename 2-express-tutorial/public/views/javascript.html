@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Node Js | Javascript</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<nav>
+		<div style="text-align: start;">
+			<span style="font-size: 2rem; font-weight: bold; border-bottom: solid 1rem firebrick">logo</span>
+		</div>
+		<div class="auth" style="text-align: end;">
+			<a href="/">regular</a>
+			<a href="api/people">javascript</a>
+		</div>
+	</nav>
+	<main>
+		<form>
+			<h3>Javascript Form</h3>
+			<div class="form-row">
+				<label for="name">enter name</label>
+				<input type="text" name="name" class="form-input" id="name" autocomplete="false">
+				<small class="form-alert"></small>
+			</div>
+			<button type="submit" class="block submit-btn">submit</button>
+		</form>
+	</main>
+	<div class="result"></div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+	<script>
+		const result = document.querySelector('.result');
+
+		const fetchPeople = async () => {
+			try {
+				const {data} = await axios.get('/api/people');
+				const people = data.data.map((person) => {
+					return `<h5>${person.name}</h5>`;
+				});
+				result.innerHTML = people.join('');
+			}
+			catch(error){
+				result.innerHTML = `<div class="alert alert-danger">Can't fetch Data</div>`;
+			}
+		}
+
+		fetchPeople();
+
+		//Submit form
+		const btn = document.querySelector('.submit-btn');
+		const input = document.querySelector('.form-input');
+		const formAlert = document.querySelector('.form-alert');
+		btn.addEventListener('click', async (e) => {
+			e.preventDefault();
+			const nameValue = input.value;
+
+			try{
+				const {data} = await axios.post('/api/people', {name: nameValue});
+				const h5 = document.createElement('h5');
+				h5.textContent = data.person;
+				result.appendChild(h5);
+			}catch(error){
+				formAlert.textContent = error.response.data.msg;
+			}
+			input.value = '';
+		});
+	</script>
+</body>
+</html>
